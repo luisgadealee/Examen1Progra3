@@ -76,7 +76,8 @@ namespace GestionEmpleados
             }
 
             // Obtiene el ID del empleado seleccionado de la primera columna
-            int empleadoId = Convert.ToInt32(dgvEmpleados.SelectedRows[0].Cells[0].Value);
+            // Busca el ID por nombre de la columna para evitar problemas si se cambia el orden de las columnas en el DataGridView.
+            int empleadoId = Convert.ToInt32(dgvEmpleados.SelectedRows[0].Cells["EmpleadoId"].Value);
 
             // Abre el formulario secundario en modo Editar con el ID
             var frm = new FrmAgregarEditarEmpleado(_empleadoFacade, empleadoId);
@@ -110,7 +111,8 @@ namespace GestionEmpleados
             if (confirmacion != DialogResult.Yes) return;
 
             // Obtiene el ID y elimina
-            int empleadoId = Convert.ToInt32(dgvEmpleados.SelectedRows[0].Cells[0].Value);
+            // Busca el ID por nombre de la columna para evitar problemas si se cambia el orden de las columnas en el DataGridView.
+            int empleadoId = Convert.ToInt32(dgvEmpleados.SelectedRows[0].Cells["EmpleadoId"].Value);
             _empleadoFacade.Eliminar(empleadoId);
 
             MessageBox.Show(
@@ -159,6 +161,7 @@ namespace GestionEmpleados
             }
 
             // La idea de esto es simplemente ordenar cuando se recargue los empleados
+            // para que siempre se muestren en el mismo orden, independientemente de cómo los traiga la base de datos.
             dgvEmpleados.Columns["EmpleadoId"].DisplayIndex = 0;
             dgvEmpleados.Columns["Nombre"].DisplayIndex = 1;
             dgvEmpleados.Columns["Apellido"].DisplayIndex = 2;
