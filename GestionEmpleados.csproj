@@ -59,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BLL\Empleado.cs" />
+    <Compile Include="BLL\EmpleadoFacade.cs" />
     <Compile Include="BLL\EmpleadoPlanta.cs" />
     <Compile Include="BLL\EmpleadoTemporal.cs" />
     <Compile Include="BLL\IEmpleado.cs" />
