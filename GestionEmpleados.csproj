@@ -81,6 +81,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>GestionEmpleadosModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Forms\FrmAgregarEditarEmpleado.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmAgregarEditarEmpleado.Designer.cs">
+      <DependentUpon>FrmAgregarEditarEmpleado.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\FrmPrincipalEmpleados.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -89,6 +95,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Forms\FrmAgregarEditarEmpleado.resx">
+      <DependentUpon>FrmAgregarEditarEmpleado.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmPrincipalEmpleados.resx">
       <DependentUpon>FrmPrincipalEmpleados.cs</DependentUpon>
     </EmbeddedResource>
