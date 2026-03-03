@@ -9,6 +9,7 @@
 using System;
 using System.Windows.Forms;
 using GestionEmpleados.BLL;
+using GestionEmpleados.Forms;
 
 namespace GestionEmpleados
 {
@@ -156,6 +157,18 @@ namespace GestionEmpleados
             {
                 dgvEmpleados.Rows[i].Cells["Tipo"].Value = empleados[i].ObtenerTipo();
             }
+
+            // La idea de esto es simplemente ordenar cuando se recargue los empleados
+            dgvEmpleados.Columns["EmpleadoId"].DisplayIndex = 0;
+            dgvEmpleados.Columns["Nombre"].DisplayIndex = 1;
+            dgvEmpleados.Columns["Apellido"].DisplayIndex = 2;
+            dgvEmpleados.Columns["Sueldo"].DisplayIndex = 3;
+            dgvEmpleados.Columns["Cargo"].DisplayIndex = 4;
+            dgvEmpleados.Columns["Tipo"].DisplayIndex = 5;
+
+            dgvEmpleados.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
+
+        
     }
 }

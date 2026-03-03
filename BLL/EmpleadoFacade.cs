@@ -109,5 +109,12 @@ namespace GestionEmpleados.BLL
             _db.Empleados.Remove(empleado);
             _db.SaveChanges();
         }
+
+        // Obtiene un empleado por su ID, se usa para cargar los datos en el formulario de edición.
+        // Devuelve un objeto Empleados que corresponde al ID proporcionado.
+        public Empleados ObtenerPorId(int empleadoId)
+        {
+            return _db.Empleados.Find(empleadoId);
+        }
     }
 }
