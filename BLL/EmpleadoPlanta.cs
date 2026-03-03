@@ -1,12 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿// ─────────────────────────────────────────────────────────────────────────────
+// Archivo  : EmpleadoPlanta.cs
+// Capa     : BLL (Business Logic Layer)
+// Propósito: Representa un empleado de planta con contrato indefinido.
+// ─────────────────────────────────────────────────────────────────────────────
 
 namespace GestionEmpleados.BLL
 {
-    internal class EmpleadoPlanta
+    //Herencia aplicada: EmpleadoPlanta hereda de Empleado, lo que significa que tiene todas las propiedades y métodos de Empleado.
+    public class EmpleadoPlanta : Empleado
     {
+        // ─────────────────────────────────────────────────────────────────
+        // Constructor
+        // ─────────────────────────────────────────────────────────────────
+
+        //Contructor que recibe todos los parámetros necesarios para inicializar un empleado de planta.
+        // Llama al constructor de la clase base (Empleado) para inicializar los atributos heredados.
+        // Se le llama contructor por parametros porque recibe parametros para inicializar el objeto.
+        public EmpleadoPlanta(int empleadoId, string nombre, string apellido,
+                              decimal sueldo, string cargo)
+            : base(empleadoId, nombre, apellido, sueldo, cargo)
+        {
+        }
+
+        // ─────────────────────────────────────────────────────────────────
+        // Implementación del método abstracto
+        // ─────────────────────────────────────────────────────────────────
+
+        // La idea es que cada tipo de empleado pueda devolver su tipo específico, en este caso "Empleado Planta".
+        public override string ObtenerTipo()
+        {
+            return "Empleado Planta";
+        }
     }
 }
