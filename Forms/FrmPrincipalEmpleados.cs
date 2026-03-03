@@ -10,11 +10,16 @@ using System.Windows.Forms;
 
 namespace GestionEmpleados
 {
-    public partial class Form1 : Form
+    public partial class FrmPrincipalEmpleados : Form
     {
-        public Form1()
+        public FrmPrincipalEmpleados()
         {
             InitializeComponent();
+        }
+
+        private void FrmPrincipalEmpleados_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
