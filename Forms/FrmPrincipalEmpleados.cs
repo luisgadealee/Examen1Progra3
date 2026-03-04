@@ -172,6 +172,94 @@ namespace GestionEmpleados
             dgvEmpleados.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
 
-        
+        // Metodo para calcular el sueldo con bono del empleado seleccionado. Utiliza la sobrecarga de CalcularSueldo que recibe el bono.
+        private void btnCalcular_Click(object sender, EventArgs e)
+        {
+            // Control de errores para asegurarse de que se ha seleccionado un empleado y
+            // se ha ingresado un bono válido antes de intentar calcular el sueldo con bono.
+            // Verifica que haya un empleado seleccionado
+            if (dgvEmpleados.SelectedRows.Count == 0)
+            {
+                MessageBox.Show(
+                    "Selecciona un empleado para calcular el sueldo.",
+                    "Aviso",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Verifica que el bono tenga un valor
+            if (string.IsNullOrWhiteSpace(txtBono.Text))
+            {
+                MessageBox.Show(
+                    "Ingresa un bono para calcular.",
+                    "Aviso",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Obtiene el sueldo base y el bono
+            decimal sueldoBase = Convert.ToDecimal(
+                                 dgvEmpleados.SelectedRows[0].Cells["Sueldo"].Value);
+            decimal bono = Convert.ToDecimal(txtBono.Text.Trim());
+
+            // Obtiene el ID y tipo del empleado seleccionado
+            int empleadoId = Convert.ToInt32(
+                                 dgvEmpleados.SelectedRows[0].Cells["EmpleadoId"].Value);
+            string tipoEmpleado = dgvEmpleados.SelectedRows[0].Cells["Tipo"].Value.ToString();
+
+            // Instancia la clase correcta según el tipo
+            // Aquí es donde la herencia cobra vida
+            Empleado empleado;
+            if (tipoEmpleado == "Empleado Planta")
+                empleado = new EmpleadoPlanta(empleadoId, "", "", sueldoBase, "");
+            else
+                empleado = new EmpleadoTemporal(empleadoId, "", "", sueldoBase, "");
+
+            // Llama a CalcularSueldo con bono — sobrecarga versión 2
+            decimal sueldoConBono = empleado.CalcularSueldo(sueldoBase, bono);
+
+            // Muestra el resultado
+            lblResultadoBono.Text = $"${sueldoConBono}";
+
+            // Pregunta si desea aplicar el bono al sueldo
+            var confirmacion = MessageBox.Show(
+                $"Sueldo base:     ${sueldoBase}\n" +
+                $"Bono:            ${bono}\n" +
+                $"Sueldo con bono: ${sueldoConBono}\n\n" +
+                $"¿Desea aplicar el bono al sueldo del empleado?",
+                "Aplicar Bono",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question);
+
+            if (confirmacion != DialogResult.Yes) return;
+
+            // Aplica el bono actualizando el sueldo en la BD
+            var emp = _empleadoFacade.ObtenerPorId(empleadoId);
+            _empleadoFacade.Editar(emp.EmpleadoId, emp.Nombre, emp.Apellido,
+                                   sueldoConBono, emp.Cargo, emp.TipoEmpleado);
+
+            MessageBox.Show(
+                "Bono aplicado correctamente.",
+                "Éxito",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information);
+
+            CargarEmpleados();
+        }
+
+        private void dgvEmpleados_SelectionChanged(object sender, EventArgs e)
+        {
+            if (dgvEmpleados.SelectedRows.Count == 0) return;
+
+            // Obtiene el sueldo de la fila seleccionada
+            var sueldo = dgvEmpleados.SelectedRows[0].Cells["Sueldo"].Value;
+
+            // Muestra el sueldo base y resetea los otros campos
+            lblResultadoBase.Text = $"${sueldo}";
+            lblResultadoBono.Text = "$0.00";
+            txtBono.Clear();
+        }
     }
 }
